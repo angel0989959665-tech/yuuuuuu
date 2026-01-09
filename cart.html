@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Toast&Co.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/final.css">
+</head>
+
+<body>
+
+    <!-- ===== 導覽列 ===== -->
+    <header class="header">
+        <div class="navbar">
+            <div class="nav-left nav-icons">
+                <a href="login.html" id="memberArea">
+                    <i class="fa-regular fa-user icon"></i>
+                </a>
+
+                <i class="fa-solid fa-magnifying-glass icon" id="searchIcon"></i>
+            </div>
+
+
+            <div class="logo">
+                <img src="assets/img/images/logoo.png" alt="Toast&Co logo">
+                <a href="index.html">Toast&Co.</a>
+            </div>
+
+            <div class="nav-right nav-icons">
+                <a href="cart.html"><i class="fa-solid fa-cart-shopping icon"></i></a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <a href="about-us.html">關於我們</a>
+            <a href="goods.html">商品列表</a>
+            <a href="limited.html">期間限定</a>
+            <a href="feedback.html">顧客回饋</a>
+            <a href="contact.html">聯絡資訊</a>
+        </nav>
+
+        <input type="text" id="searchInput" placeholder="搜尋商品...">
+
+        <div style="height: 120px;"></div>
+
+    </header>
+
+    <div style="height: 120px;"></div>
+    
+    <main class="cart-page">
+        <h1>購物車</h1>
+        <section id="cart-items"></section>
+      
+        <div id="empty" style="display:none;">購物車是空的</div>
+      
+        <aside class="summary">
+            <p>小計：<span id="subtotal">NT$ 0</span></p>
+            <p>運費：NT$ 60</p>
+            <hr>
+            <p class="total">總計：<span id="total">NT$ 0</span></p>
+        
+            <a
+                id="checkout-btn"
+                href="checkout.html"
+                class="checkout-btn"
+            >
+                前往結帳
+            </a>
+        </aside>
+    </main>
+
+    <script src="assets/js/cart.js"></script>
+    <script>
+        const cart = getCart();
+        const container = document.getElementById('cart-items');
+        const empty = document.getElementById('empty');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        
+        function renderCart() {
+            container.innerHTML = '';
+            let subtotal = 0;
+        
+            if (cart.length === 0) {
+            empty.style.display = 'block';
+        
+            // 鎖住結帳
+            checkoutBtn.classList.add('disabled');
+            checkoutBtn.removeAttribute('href');
+        
+            document.getElementById('subtotal').textContent = 'NT$ 0';
+            document.getElementById('total').textContent = 'NT$ 0';
+            return;
+            }
+        
+            //有商品 → 解鎖結帳
+            empty.style.display = 'none';
+            checkoutBtn.classList.remove('disabled');
+            checkoutBtn.setAttribute('href', 'checkout.html');
+        
+            cart.forEach((item, index) => {
+                subtotal += item.price * item.qty;
+            
+                container.innerHTML += `
+                    <div class="cart-item">
+                    <img src="${item.image}">
+                    <div>
+                        <h3>${item.name}</h3>
+                        <p>NT$ ${item.price}</p>
+                        <div class="qty">
+                        <button onclick="changeQty(${index}, -1)">−</button>
+                        <span>${item.qty}</span>
+                        <button onclick="changeQty(${index}, 1)">＋</button>
+                        </div>
+                    </div>
+                    <button onclick="removeItem(${index})">✕</button>
+                    </div>
+                `;
+            });
+        
+            document.getElementById('subtotal').textContent = `NT$ ${subtotal}`;
+            document.getElementById('total').textContent = `NT$ ${subtotal + 60}`;
+        }
+        
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+            cart.splice(index, 1);
+            }
+            saveCart(cart);
+            renderCart();
+        }
+        
+        function removeItem(index) {
+            cart.splice(index, 1);
+            saveCart(cart);
+            renderCart();
+        }
+        
+        renderCart();
+    </script>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-left">
+                <p>Toast&Co.</p>
+                <br>
+                <img height="100" src="assets/img/images/logoo.png" alt="logo">
+            </div>
+
+            <div class="footer-middle">
+                <h3>公司資訊</h3>
+                <p>
+                    <a href="mailto:0522pamela@gmail.com?subject=客服詢問"><i class="fa-regular fa-envelope"></i></a>
+                    <a href="https://www.facebook.com/share/1brKSqFVAn/?mibextid=wwXIfr"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/unaizla_?igsh=NTB3N2s4Nzc0N3Nk"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="tel:0938069567"><i class="fa-solid fa-phone"></i></a>
+                </p>
+                <p>公司名稱：好市吐司股份有限公司</p>
+                <p>電話：0941016522</p>
+                <p>地址：320桃園市中壢區中原路200號</p>
+                <p>服務時間：周一至周六 08：00~17:00</p>
+            </div>
+
+            <div class="footer-right">
+
+                <div class="footer-group">
+                    <h3>常見問題</h3>
+                    <a href="faq.html#order">訂購須知</a>
+                    <a href="faq.html#qa">Q&A</a>
+                </div>
+            
+                <div class="footer-group">
+                    <h3>購物說明</h3>
+                    <a href="faq.html#storage">保存方式</a>
+                    <a href="faq.html#shipping">運送方式</a>
+                    <a href="faq.html#payment">付款方式</a>
+                </div>
+            
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/header-auth.js"></script>
+
+</body>
+</html>

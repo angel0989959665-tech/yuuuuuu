@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Toast&Co. | 顧客評論</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/final.css">
+
+    <style>
+        .reviews-main {
+            padding-top: 20px;
+            max-width: 1000px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+
+        .reviews-main h1 {
+            text-align: center;
+            font-size: 35px;
+            margin-bottom: 50px;
+            color: #454545;
+        }
+
+        .rating-summary {
+            margin-top: 200px;
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .rating-summary .stars {
+            color: gold;
+            font-size: 3em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .rating-summary p {
+            font-size: 1.2em;
+        }
+
+        .reviews-container {
+            padding: 0;
+            border-top: none;
+            margin-bottom: 40px;
+        }
+
+        .review-item {
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #ffffff;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .review-item .rating-stars .fa-star {
+            color: gold;
+            margin-right: 2px;
+            font-size: 1.1em;
+        }
+
+        .review-item .rating-stars .fa-regular {
+            color: #ccc;
+            margin-right: 2px;
+        }
+
+        .review-item .review-title-display {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            margin: 0;
+            color: #6f8462;
+        }
+
+        .review-content-box {
+            line-height: 1.6;
+        }
+
+        #reviewFormContainer {
+            background-color: #f7f3e8;
+            border: 1px solid #e0e0e0;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        #reviewFormContainer h2 {
+            font-size: 28px;
+            color: #6f8462;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .review-form label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #454545;
+        }
+
+        .review-form input[type="text"],
+        .review-form input[type="email"],
+        .review-form textarea {
+            width: 100%;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .review-form input[readonly] {
+            background-color: #eee;
+            cursor: not-allowed;
+            color: #888;
+        }
+
+        .review-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .rating-stars-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .rating-stars-input label {
+            margin-right: 15px;
+            margin-top: 0;
+            font-weight: normal;
+        }
+
+        .rating-stars-input input[type="radio"] {
+            display: none;
+        }
+
+        /* 星星工具 */
+        .input-stars {
+            display: inline-block;
+            direction: rtl;
+        }
+
+        .input-stars>label {
+            display: inline-block;
+            font-size: 25px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .input-stars>label i {
+            color: #ccc;
+            transition: color 0.2s;
+        }
+
+        .input-stars>input:checked~label i {
+            color: #fdd835;
+
+        }
+
+        .input-stars>label:hover i,
+        .input-stars>label:hover~label i {
+            color: #ffeb3b;
+
+        }
+
+
+        .review-form button[type="submit"] {
+            background-color: #6f8462;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .review-form button[type="submit"]:hover {
+            background-color: #5d6e53;
+        }
+
+        /* 評論操作按鈕樣式 */
+        .review-actions {
+            display: flex;
+            justify-content: flex-end;
+
+            gap: 10px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #f9f9f9;
+        }
+
+        .review-actions button {
+            background: none;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            font-size: 0.9em;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .review-actions .edit-btn {
+            color: #4CAF50;
+
+            border-color: #4CAF50;
+        }
+
+        .review-actions .edit-btn:hover {
+            background-color: #e8f5e9;
+        }
+
+        .review-actions .delete-btn {
+            color: #F44336;
+
+            border-color: #F44336;
+        }
+
+        .review-actions .delete-btn:hover {
+            background-color: #ffebee;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="navbar">
+            <div class="nav-left nav-icons">
+                <a href="login.html" id="memberArea"><i class="fa-regular fa-user icon"></i></a>
+                <i class="fa-solid fa-magnifying-glass icon" id="searchIcon"></i>
+            </div>
+
+            <div class="logo">
+                <img src="assets/img/images/logoo.png" alt="Toast&Co logo">
+                <a href="index.html">Toast&Co.</a>
+            </div>
+
+            <div class="nav-right nav-icons">
+                <a href="cart.html"><i class="fa-solid fa-cart-shopping icon"></i></a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <a href="about-us.html">關於我們</a>
+            <a href="goods.html">商品列表</a>
+            <a href="limited.html">期間限定</a>
+            <a href="feedback.html">顧客回饋</a>
+            <a href="contact.html">聯絡資訊</a>
+
+        </nav>
+        <input type="text" id="searchInput" placeholder="搜尋商品...">
+
+    </header>
+
+    <main class="reviews-main">
+        <h1>顧客真心回饋</h1>
+
+        <section class="rating-summary">
+            <span class="stars">★★★★★</span>
+            <h2>顧客評論</h2>
+            <p>感謝顧客的肯定與支持！</p>
+        </section>
+
+        <section class="customer-reviews-section reviews-container">
+            <h3>所有顧客評論</h3>
+            <div id="reviewsListContainer">
+            </div>
+        </section>
+
+        <div id="reviewFormContainer">
+            <h2>留下您的寶貴評論</h2>
+            <form class="review-form" onsubmit="handleReviewSubmit(event)">
+
+                <label for="reviewerName">您的姓名</label>
+                <input type="text" id="reviewerName" required placeholder="請輸入您的姓名">
+
+                <label for="reviewerEmail">Email (不會公開)</label>
+                <input type="email" id="reviewerEmail" required placeholder="請輸入您的電子郵件">
+
+                <div class="rating-stars-input">
+                    <label>整體評分</label>
+                    <div class="input-stars">
+                        <input type="radio" id="star5" name="rating" value="5" required>
+                        <label for="star5" title="5 顆星"><i class="fa-solid fa-star"></i></label>
+                        <input type="radio" id="star4" name="rating" value="4">
+                        <label for="star4" title="4 顆星"><i class="fa-solid fa-star"></i></label>
+                        <input type="radio" id="star3" name="rating" value="3">
+                        <label for="star3" title="3 顆星"><i class="fa-solid fa-star"></i></label>
+                        <input type="radio" id="star2" name="rating" value="2">
+                        <label for="star2" title="2 顆星"><i class="fa-solid fa-star"></i></label>
+                        <input type="radio" id="star1" name="rating" value="1">
+                        <label for="star1" title="1 顆星"><i class="fa-solid fa-star"></i></label>
+                    </div>
+                </div>
+
+                <label for="reviewTitle">評論主旨 (可選)</label>
+                <input type="text" id="reviewTitle" placeholder="給您的評論一個簡短的標題">
+
+                <label for="reviewContent">您的評論內容</label>
+                <textarea id="reviewContent" required placeholder="請分享您對我們的產品或服務的真實想法"></textarea>
+
+                <button type="submit">送出評論</button>
+            </form>
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-left">
+                <p>Toast&Co.</p>
+                <br>
+                <img height="100" src="assets/img/images/logoo.png" alt="logo">
+            </div>
+
+            <div class="footer-middle">
+                <h3>公司資訊</h3>
+                <p>
+                    <a href="mailto:0522pamela@gmail.com?subject=客服詢問"><i class="fa-regular fa-envelope"></i></a>
+                    <a href="https://www.facebook.com/share/1brKSqFVAn/?mibextid=wwXIfr"><i
+                            class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/unaizla_?igsh=NTB3N2s4Nzc0N3Nk"><i
+                            class="fa-brands fa-instagram"></i></a>
+                    <a href="tel:0938069567"><i class="fa-solid fa-phone"></i></a>
+                </p>
+                <p>公司名稱：好市吐司股份有限公司</p>
+                <p>電話：0941016522</p>
+                <p>地址：320桃園市中壢區中原路200號</p>
+                <p>服務時間：周一至周六 08：00~17:00</p>
+            </div>
+
+            <div class="footer-right">
+
+                <div class="footer-group">
+                    <h3>常見問題</h3>
+                    <a href="faq.html#order">訂購須知</a>
+                    <a href="faq.html#qa">Q&A</a>
+                </div>
+
+                <div class="footer-group">
+                    <h3>購物說明</h3>
+                    <a href="faq.html#storage">保存方式</a>
+                    <a href="faq.html#shipping">運送方式</a>
+                    <a href="faq.html#payment">付款方式</a>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+
+        let editingReviewIndex = -1;
+
+        const initialReviews = [
+            { name: "李伯瑞", rating: 5, title: "產品品質超乎預期！", content: "這次購買的吐司味道非常棒，口感鬆軟，家人都非常喜歡。下次會再回購其他口味！", date: "2026-01-01" },
+            { name: "蔡10", rating: 4, title: "服務不錯，但運送可以更快", content: "客服回應很即時，但物流速度比預期的慢了一些，希望下次能改進。", date: "2025-12-25" },
+            { name: "淋雨韓", rating: 5, title: "長年購買的忠實粉絲!", content: "讓我們家願意長年回購的動力在於豐富的口味和始終如一的高品質，推推！", date: "2025-11-15" },
+            { name: "匿名顧客", rating: 5, title: "購物體驗", content: "網站訂購流程非常順暢，客服回覆也很快，吐司包裝完整，送到手上還是很新鮮！很棒的購物體驗。", date: "2025-11-01" },
+        ];
+
+
+        function renderStars(rating) {
+            let starsHTML = '<span class="rating-stars">';
+            for (let i = 0; i < 5; i++) {
+                if (i < rating) {
+                    starsHTML += '<i class="fa-solid fa-star"></i>';
+                } else {
+                    starsHTML += '<i class="fa-regular fa-star"></i>';
+                }
+            }
+            starsHTML += '</span>';
+            return starsHTML;
+        }
+
+
+        function renderReviews() {
+            const container = document.getElementById('reviewsListContainer');
+            if (!container) return;
+
+            let storedReviews;
+            try {
+                storedReviews = JSON.parse(localStorage.getItem('userReviews')) || [];
+            } catch (e) {
+                console.error("無法解析 localStorage 中的評論資料:", e);
+                storedReviews = [];
+            }
+
+            const allReviewsCount = storedReviews.length + initialReviews.length;
+            let html = '';
+
+
+            const reversedStoredReviews = storedReviews.slice().reverse();
+
+
+            reversedStoredReviews.forEach((review, reversedIndex) => {
+
+                const originalIndex = storedReviews.length - 1 - reversedIndex;
+
+                const displayDate = review.date ? review.date.replace(/-/g, '/') : 'N/A';
+                const displayTitle = review.title && review.title.trim() !== '' ? `<p class="review-title-display">${review.title}</p>` : '';
+                const starHTML = renderStars(review.rating);
+
+                html += `
+                    <article class="review-item" id="user-review-${originalIndex}">
+                        <div class="review-header">
+                            <h3 class="user-name">${review.name} <span style="font-weight: normal; font-size: 0.9em; color: #888;">(您的評論)</span></h3>
+                            <div class="review-meta">
+                                ${starHTML}
+                                <span style="font-size: 0.9em; color: #888;">${displayDate}</span>
+                            </div>
+                        </div>
+                        ${displayTitle}
+                        <div class="review-content-box">
+                            「${review.content}」
+                        </div>
+                        <div class="review-actions">
+                            <button type="button" class="edit-btn" onclick="editReview(${originalIndex})">修改</button>
+                            <button type="button" class="delete-btn" onclick="deleteReview(${originalIndex})">刪除</button>
+                        </div>
+                    </article>
+                `;
+            });
+
+
+            initialReviews.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(review => {
+                const displayDate = review.date ? review.date.replace(/-/g, '/') : 'N/A';
+                const displayTitle = review.title && review.title.trim() !== '' ? `<p class="review-title-display">${review.title}</p>` : '';
+                const starHTML = renderStars(review.rating);
+
+                html += `
+                    <article class="review-item">
+                        <div class="review-header">
+                            <h3 class="user-name">${review.name}</h3>
+                            <div class="review-meta">
+                                ${starHTML}
+                                <span style="font-size: 0.9em; color: #888;">${displayDate}</span>
+                            </div>
+                        </div>
+                        ${displayTitle}
+                        <div class="review-content-box">
+                            「${review.content}」
+                        </div>
+                    </article>
+                `;
+            });
+
+            container.innerHTML = html;
+            document.querySelector('.reviews-container h3').textContent = `所有顧客評論 (${allReviewsCount} 則)`;
+
+            // 如果正在編輯，滾動到表單位置
+            if (editingReviewIndex !== -1) {
+                document.getElementById('reviewFormContainer').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+
+        function getLoggedInUserName() {
+            const isLogin = localStorage.getItem('isLogin') === 'true';
+            if (isLogin) {
+                try {
+                    const userData = JSON.parse(localStorage.getItem('currentUserData'));
+                    if (userData && userData.name) {
+                        return userData.name;
+                    }
+                } catch (e) {
+                    console.error("無法解析用戶資料:", e);
+                }
+            }
+            return null;
+        }
+
+
+        function deleteReview(index) {
+            if (!confirm('您確定要刪除這則評論嗎？此操作無法復原。')) {
+                return;
+            }
+
+            let userReviews;
+            try {
+                userReviews = JSON.parse(localStorage.getItem('userReviews')) || [];
+            } catch (e) {
+                console.error("無法解析用戶評論資料:", e);
+                return;
+            }
+
+
+            userReviews.splice(index, 1);
+
+            // 儲存回 LocalStorage
+            localStorage.setItem('userReviews', JSON.stringify(userReviews));
+
+
+            if (editingReviewIndex === index) {
+
+                editingReviewIndex = -1;
+                document.querySelector('.review-form').reset();
+                document.querySelector('.review-form button[type="submit"]').textContent = '送出評論';
+            } else if (editingReviewIndex > index) {
+
+                editingReviewIndex--;
+            }
+
+
+            renderReviews();
+            alert('評論已成功刪除。');
+        }
+
+        /**
+         * 修改評論的函式
+         */
+        function editReview(index) {
+            let userReviews;
+            try {
+                userReviews = JSON.parse(localStorage.getItem('userReviews')) || [];
+            } catch (e) {
+                console.error("無法解析用戶評論資料:", e);
+                alert('無法載入評論資料進行修改。');
+                return;
+            }
+
+            const reviewToEdit = userReviews[index];
+            if (!reviewToEdit) {
+                alert('找不到要修改的評論。');
+                return;
+            }
+
+
+            editingReviewIndex = index;
+
+
+            document.getElementById('reviewerName').value = reviewToEdit.name;
+
+            document.getElementById('reviewerEmail').value = localStorage.getItem('currentUserEmail') || '';
+            document.getElementById('reviewTitle').value = reviewToEdit.title || '';
+            document.getElementById('reviewContent').value = reviewToEdit.content;
+
+            //  填充星級評分
+            const ratingElement = document.getElementById(`star${reviewToEdit.rating}`);
+            if (ratingElement) {
+                ratingElement.checked = true;
+            }
+            //  更新送出按鈕文字
+            document.querySelector('.review-form button[type="submit"]').textContent = '更新評論';
+
+            // 滾動到表單
+            document.getElementById('reviewFormContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+
+
+        function handleReviewSubmit(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const nameInput = document.getElementById('reviewerName');
+            const submitButton = form.querySelector('button[type="submit"]');
+
+            let name = nameInput.value.trim();
+            const email = document.getElementById('reviewerEmail').value;
+            const title = document.getElementById('reviewTitle').value.trim();
+            const content = document.getElementById('reviewContent').value;
+            const ratingInput = document.querySelector('input[name="rating"]:checked');
+
+
+            if (name === "") {
+                alert("請輸入您的姓名，不能為空！");
+                nameInput.focus();
+                return;
+            }
+            if (!ratingInput) {
+                alert("請給予星級評分！");
+                return;
+            }
+
+            const ratingValue = parseInt(ratingInput.value, 10);
+            const today = new Date().toISOString().slice(0, 10); // 格式為 YYYY-MM-DD
+
+            const newReviewData = {
+                name: name,
+                rating: ratingValue,
+                title: title,
+                content: content,
+                date: today
+            };
+
+            let userReviews;
+            try {
+                userReviews = JSON.parse(localStorage.getItem('userReviews')) || [];
+            } catch (e) {
+                userReviews = [];
+            }
+
+            if (editingReviewIndex !== -1) {
+
+                if (editingReviewIndex >= 0 && editingReviewIndex < userReviews.length) {
+
+                    userReviews[editingReviewIndex] = newReviewData;
+                    localStorage.setItem('userReviews', JSON.stringify(userReviews));
+                    alert(`感謝 ${name}，您的評論已成功更新！`);
+                } else {
+                    alert('更新評論時發生錯誤。');
+                    return;
+                }
+
+
+                editingReviewIndex = -1;
+                submitButton.textContent = '送出評論';
+
+            } else {
+
+                userReviews.unshift(newReviewData);
+                localStorage.setItem('userReviews', JSON.stringify(userReviews));
+                alert(`感謝 ${name}，您的 ${ratingValue} 顆星評論已送出！`);
+            }
+
+
+            renderReviews();
+
+
+            form.reset();
+        }
+
+
+        window.onload = function () {
+            renderReviews();
+
+            const reviewerNameInput = document.getElementById('reviewerName');
+            const loggedInName = getLoggedInUserName();
+
+            if (reviewerNameInput) {
+                if (loggedInName) {
+
+                    reviewerNameInput.value = '';
+                    reviewerNameInput.placeholder = `您已登入，可輸入姓名 (建議: ${loggedInName}) 或其他名稱`;
+                    reviewerNameInput.removeAttribute('readOnly');
+                } else {
+                    reviewerNameInput.placeholder = "請輸入您的姓名";
+                }
+            }
+
+
+            
+        };
+    </script>
+ <script src="assets/js/header-auth.js"></script>
+
+</body>
+
+</html>

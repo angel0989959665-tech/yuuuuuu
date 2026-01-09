@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toast&Co. | 商品列表</title>
+    <link rel="stylesheet" href="assets/css/final.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- ===== 導覽列 ===== -->
+    <header class="header">
+        <div class="navbar">
+            <div class="nav-left nav-icons">
+                <a href="login.html" id="memberArea">
+                    <i class="fa-regular fa-user icon"></i>
+                </a>
+
+                <i class="fa-solid fa-magnifying-glass icon" id="searchIcon"></i>
+            </div>
+
+
+            <div class="logo">
+                <img src="assets/img/images/logoo.png" alt="Toast&Co logo">
+                <a href="index.html">Toast&Co.</a>
+            </div>
+
+            <div class="nav-right nav-icons">
+                <a href="cart.html"><i class="fa-solid fa-cart-shopping icon"></i></a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <a href="about-us.html">關於我們</a>
+            <a href="goods.html">商品列表</a>
+            <a href="limited.html">期間限定</a>
+            <a href="feedback.html">顧客回饋</a>
+            <a href="contact.html">聯絡資訊</a>
+        </nav>
+
+        <input type="text" id="searchInput" placeholder="搜尋商品...">
+    </header>
+
+    <main>
+        <div style="height: 50px;"></div>
+        <h1 class="page-title">全部商品</h1>
+
+        <div class="product-filter">
+            <div class="dropdown">
+                <button class="dropdown-btn">
+                    商品分類 ▾
+                </button>
+
+                <ul class="dropdown-menu">
+                    <a href="#classic">
+                        <li>經典口味</li>
+                    </a>
+                    <a href="#salt">
+                        <li>鹹味厚片</li>
+                    </a>
+                    <a href="#tea">
+                        <li>茶香系列</li>
+                    </a>
+                    <a href="#special">
+                        <li>特殊口味</li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 經典口味 -->
+        <section class="products">
+            <h2 class="category-title" id="classic">經典口味</h2>
+            <div class="product-classic">
+                <article class="product-card">
+                    <a href="chocolate.html">
+                        <img src="assets/img/flavor images/chocolate.png" alt="巧克力榛果厚片">
+                        <h3 class="product-name">巧克力榛果厚片</h3>
+                        <p>NT$ 115</p>
+                        <div class="rating-stars">★★★★★</div>
+                    </a>
+                </article>
+
+                <article class="product-card">
+                    <a href="butter.html">
+                        <img src="assets/img/flavor images/butter.png" alt="奶油砂糖厚片">
+                        <h3 class="product-name">奶油砂糖厚片</h3>
+                        <p>NT$ 80</p>
+                        <div class="rating-stars">★★★★★</div>
+                    </a>
+                </article>
+
+                <article class="product-card">
+                    <a href="seasame.html">
+                        <img src="assets/img/flavor images/seasame.png" alt="芝麻奶酥厚片">
+                        <h3 class="product-name">芝麻奶酥厚片</h3>
+                        <p>NT$ 110</p>
+                        <div class="rating-stars">★★★★☆</div>
+                    </a>
+                </article>
+
+                <article class="product-card">
+                    <a href="honey.html">
+                        <img src="assets/img/flavor images/honey.png" alt="全麥蜂蜜厚片">
+                        <h3 class="product-name">全麥蜂蜜厚片</h3>
+                        <p>NT$ 110</p>
+                        <div class="rating-stars">★★★★☆</div>
+                    </a>
+                </article>
+
+                <article class="product-card">
+                    <a href="taro.html">
+                        <img src="assets/img/flavor images/taro.png" alt="芋泥肉鬆厚片">
+                        <h3 class="product-name">芋泥肉鬆厚片</h3>
+                        <p>NT$ 120</p>
+                        <div class="rating-stars">★★★☆☆</div>
+                    </a>
+                </article>
+
+                <article class="product-card">
+                    <a href="coconut.html">
+                        <img src="assets/img/flavor images/coconut.png" alt="椰香葡萄奶酥厚片">
+                        <h3 class="product-name">椰香葡萄奶酥厚片</h3>
+                        <p>NT$ 115</p>
+                        <div class="rating-stars">★★★★☆</div>
+                    </a>
+                </article>
+
+            </div>
+
+            <!-- 鹹味厚片 -->
+            <h2 class="category-title" id="salt">鹹味厚片</h2>
+            <div class="product-salt">
+                <article class="product-card">
+                    <a href="garlic.html">
+                        <img src="assets/img/flavor images/garlic.png" alt="蒜香奶油厚片">
+                        <h3 class="product-name">蒜香奶油厚片</h3>
+                        <p>NT$ 80</p>
+                        <div class="rating-stars">★★★★★</div>
+                    </a>
+                </article>
+
+                <article class="product-card">
+                    <a href="bacon.html">
+                        <img src="assets/img/flavor images/bacon.png" alt="培根起司厚片">
+                        <h3 class="product-name">培根起司厚片</h3>
+                        <p>NT$ 100</p>
+                        <div class="rating-stars">★★★★☆</div>
+                    </a>
+                </article>
+
+                <article class="product-card">
+                    <a href="mentaiko.html">
+                        <img src="assets/img/flavor images/mentaiko.png" alt="明太子起司厚片">
+                        <h3 class="product-name">明太子起司厚片</h3>
+                        <p>NT$ 110</p>
+                        <div class="rating-stars">★★★☆☆</div>
+                    </a>
+                </article>
+
+            </div>
+
+            <!-- 茶香系列 -->
+            <h2 class="category-title" id="tea">茶香系列</h2>
+            <div class="product-tea">
+                <article class="product-card">
+                    <a href="grey.html">
+                        <img src="assets/img/flavor images/grey.png" alt="伯爵紅茶厚片">
+                        <h3 class="product-name">伯爵紅茶吐司</h3>
+                        <p>NT$ 120</p>
+                        <div class="rating-stars">★★★★★</div>
+                    </a>
+                </article>
+
+                <article class="product-card">
+                    <a href="roasted-tea.html">
+                        <img src="assets/img/flavor images/roasted-tea.png" alt="靜岡焙茶拿鐵厚片">
+                        <h3 class="product-name">靜岡焙茶拿鐵厚片</h3>
+                        <p>NT$ 130</p>
+                        <div class="rating-stars">★★★★☆</div>
+                    </a>
+                </article>
+
+                <article class="product-card">
+                    <a href="matcha.html">
+                        <img src="assets/img/flavor images/matcha.png" alt="宇治抹茶紅豆奶酥厚片">
+                        <h3 class="product-name">宇治抹茶紅豆奶酥厚片</h3>
+                        <p>NT$ 160</p>
+                        <div class="rating-stars">★★★★☆</div>
+                    </a>
+                </article>
+
+            </div>
+
+            <!-- 🌿 特殊口味 -->
+            <h2 class="category-title" id="special">特殊口味</h2>
+            <div class="product-special">
+                <article class="product-card">
+                    <a href="pistachio.html">
+                        <img src="assets/img/flavor images/pistachio.png" alt="開心果奶酥厚片">
+                        <h3 class="product-name">開心果奶酥厚片</h3>
+                        <p>NT$ 145</p>
+                        <div class="rating-stars">★★★★☆</div>
+                    </a>
+                </article>
+
+                <article class="product-card">
+                    <a href="caramel.html">
+                        <img src="assets/img/flavor images/caramel.png" alt="海鹽焦糖厚片">
+                        <h3 class="product-name">海鹽焦糖厚片</h3>
+                        <p>NT$ 115</p>
+                        <div class="rating-stars">★★★★☆</div>
+                    </a>
+                </article>
+
+                <article class="product-card">
+                    <a href="blossoms.html">
+                        <img src="assets/img/flavor images/blossoms.png" alt="櫻花蜜桃厚片">
+                        <h3 class="product-name">櫻花蜜桃厚片</h3>
+                        <p>NT$ 150</p>
+                        <div class="rating-stars">★★★★★</div>
+                    </a>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== 篩選商品 ===== -->
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const keyword = params.get("search");
+
+        if (keyword) {
+            const cards = document.querySelectorAll(".product-card");
+
+            cards.forEach(card => {
+                const name =
+                    card.querySelector(".product-name").innerText;
+
+                if (!name.includes(keyword)) {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-left">
+                <p>Toast&Co.</p>
+                <br>
+                <img height="100" src="assets/img/images/logoo.png" alt="logo">
+            </div>
+
+            <div class="footer-middle">
+                <h3>公司資訊</h3>
+                <p>
+                    <a href="mailto:0522pamela@gmail.com?subject=客服詢問"><i class="fa-regular fa-envelope"></i></a>
+                    <a href="https://www.facebook.com/share/1brKSqFVAn/?mibextid=wwXIfr"><i
+                            class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/unaizla_?igsh=NTB3N2s4Nzc0N3Nk"><i
+                            class="fa-brands fa-instagram"></i></a>
+                    <a href="tel:0938069567"><i class="fa-solid fa-phone"></i></a>
+                </p>
+                <p>公司名稱：好市吐司股份有限公司</p>
+                <p>電話：0941016522</p>
+                <p>地址：320桃園市中壢區中原路200號</p>
+                <p>服務時間：周一至周六 08：00~17:00</p>
+            </div>
+
+            <div class="footer-right">
+
+                <div class="footer-group">
+                    <h3>常見問題</h3>
+                    <a href="faq.html#order">訂購須知</a>
+                    <a href="faq.html#qa">Q&A</a>
+                </div>
+
+                <div class="footer-group">
+                    <h3>購物說明</h3>
+                    <a href="faq.html#storage">保存方式</a>
+                    <a href="faq.html#shipping">運送方式</a>
+                    <a href="faq.html#payment">付款方式</a>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/header-auth.js"></script>
+
+</body>
+
+</html>

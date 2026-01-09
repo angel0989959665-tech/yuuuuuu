@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Toast&Co. | 會員專區</title>
+    <link rel="stylesheet" href="assets/css/final.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+<header class="header">
+        <div class="navbar">
+            <div class="nav-left nav-icons">
+                <a href="login.html" id="memberArea">
+                    <i class="fa-regular fa-user icon"></i>
+                </a>
+
+                <i class="fa-solid fa-magnifying-glass icon" id="searchIcon"></i>
+            </div>
+
+
+            <div class="logo">
+                <img src="assets/img/images/logoo.png" alt="Toast&Co logo">
+                <a href="index.html">Toast&Co.</a>
+            </div>
+
+            <div class="nav-right nav-icons">
+                <a href="cart.html"><i class="fa-solid fa-cart-shopping icon"></i></a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <a href="about-us.html">關於我們</a>
+            <a href="goods.html">商品列表</a>
+            <a href="limited.html">期間限定</a>
+            <a href="feedback.html">顧客回饋</a>
+            <a href="contact.html">聯絡資訊</a>
+        </nav>
+
+        <input type="text" id="searchInput" placeholder="搜尋商品...">
+
+    </header>
+
+    <main class="login-page">
+        <h1 class="page-title" id="mainPageTitle">會員專區</h1>
+
+        <form id="emailForm" class="auth-form" onsubmit="checkEmail(event)">
+            <h1 class="login1">登入</h1>
+            <p>請輸入您的 Email 地址</p>
+            <label for="emailInput">Email</label>
+            <input type="email" id="emailInput" required placeholder="請輸入您的電子郵件地址">
+            <button type="submit" id="nextButton">下一步</button>
+            <p style="margin-top: 20px;">Are you not a member yet? <a href="#" onclick="showRegisterFormFromEmail()"
+                    style="color: #6f8462; text-decoration: none; font-weight: 600;">Sign Up</a></p>
+        </form>
+
+        <form id="loginForm" class="auth-form hidden" onsubmit="handleLogin(event)">
+            <p class="email-display">您將使用 <strong id="loginEmailDisplay"></strong> 登入</p>
+            <label for="loginPassword">密碼</label>
+            <input type="password" id="loginPassword" required placeholder="請輸入密碼 (至少8個字元)">
+            <button type="submit">登入</button>
+            <a href="#" class="forgot-link" onclick="backToEmail()">重新輸入 Email</a>
+        </form>
+
+        <form id="registerForm" class="auth-form hidden" onsubmit="handleRegister(event)">
+            <h3 class="register-title">新會員註冊</h3>
+            <p class="email-display">將使用 <strong id="registerEmailDisplay"></strong> 註冊</p>
+
+            <label for="regName">姓名</label>
+            <input type="text" id="regName" required placeholder="請輸入真實姓名">
+
+            <label for="regPhone">聯絡電話</label>
+            <input type="tel" id="regPhone" required placeholder="請輸入正確的電話號碼，例如: 0912345678"
+                oninput="handleInputValidation(this, 'phone')">
+
+            <label for="regPassword">密碼</label>
+            <input type="password" id="regPassword" required placeholder="請設定密碼 (至少8個字元)"
+                oninput="handleInputValidation(this, 'password')">
+
+            <label for="regConfirmPassword">確認密碼</label>
+            <input type="password" id="regConfirmPassword" required placeholder="請再次輸入密碼"
+                oninput="handleInputValidation(this, 'confirm_password')">
+
+            <fieldset class="gender-group">
+                <legend>性別</legend>
+                <input type="radio" id="regGenderMale" name="regGender" value="Male" checked>
+                <label for="regGenderMale" class="radio-label">男性</label>
+                <input type="radio" id="regGenderFemale" name="regGender" value="Female">
+                <label for="regGenderFemale" class="radio-label">女性</label>
+                <input type="radio" id="regGenderOther" name="regGender" value="Other">
+                <label for="regGenderOther" class="radio-label">其他</label>
+            </fieldset>
+
+            <label for="regBirthday">生日</label>
+            <input type="date" id="regBirthday" required>
+
+            <button type="submit">確認註冊</button>
+            <a href="#" class="forgot-link" onclick="backToEmail()">重新輸入 Email</a>
+        </form>
+
+        <div id="profileView" class="auth-form hidden">
+            <h3 class="profile-title">會員資訊</h3>
+            <div class="info-group">
+                <p><strong>姓名：</strong> <span id="infoName"></span></p>
+                <p><strong>Email：</strong> <span id="infoEmail"></span></p>
+                <p><strong>電話：</strong> <span id="infoPhone"></span></p>
+                <p><strong>性別：</strong> <span id="infoGender"></span></p>
+                <p><strong>生日：</strong> <span id="infoBirthday"></span></p>
+            </div>
+            <button class="edit-profile-btn" onclick="showEditProfile()">編輯會員資料</button>
+            <button id="logoutButton" onclick="handleLogout()">登出</button>
+
+            <div id="orderHistoryView" class="order-history-container">
+                <h3 class="profile-title order-history-title">歷史訂單</h3>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <span class="order-id">訂單號: 2025-001</span>
+                        <span class="order-status completed">訂單完成</span>
+                    </div>
+                    <div class="order-item-detail">
+                        <img src="assets/img/flavor images\butter.png" alt="吐司a" class="order-img">
+                        <div class="order-item-info">
+                            <p class="product-name">奶油砂糖厚片</p>
+                            <p>單價 : $80</p>
+                            <p>數量 : 2 份</p>
+                            <p class="order-total">總價 : $160元</p>
+                            <p class="order-date">訂單日期 : 2025-01-08</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <span class="order-id">訂單號: 2025-030</span>
+                        <span class="order-status shipping">備貨中</span>
+                    </div>
+                    <div class="order-item-detail">
+                        <img src="assets/img/flavor images\matcha.png" alt="吐司b" class="order-img">
+                        <div class="order-item-info">
+                            <p class="product-name">宇治抹茶紅豆奶酥厚片</p>
+                            <p>單價 : $160元</p>
+                            <p>數量 : 1 份</p>
+                            <p class="order-total">總價 : $160元</p>
+                            <p class="order-date">訂單日期 : 2026-01-08</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <form id="editProfileForm" class="auth-form hidden" onsubmit="handleProfileUpdate(event)">
+            <h3 class="register-title" id="editProfileTitle">我的會員資料</h3>
+            <p class="email-display">您正在編輯 <strong id="editEmailDisplay"></strong> 的資料</p>
+
+            <label for="editID">ID</label>
+            <input type="text" id="editID" value="a" disabled style="background-color: #f5f5f5; color: #888;">
+
+            <label for="editName">姓名</label>
+            <input type="text" id="editName" required>
+
+            <label for="editPhone">聯絡電話</label>
+            <input type="tel" id="editPhone" required oninput="handleInputValidation(this, 'phone')">
+
+            <label for="editEmail">Email</label>
+            <input type="email" id="editEmail" required disabled style="background-color: #f5f5f5; color: #888;">
+
+            <fieldset class="gender-group">
+                <legend>性別</legend>
+                <input type="radio" id="editGenderMale" name="editGender" value="Male" checked>
+                <label for="editGenderMale" class="radio-label">男性</label>
+                <input type="radio" id="editGenderFemale" name="editGender" value="Female">
+                <label for="editGenderFemale" class="radio-label">女性</label>
+                <input type="radio" id="editGenderOther" name="editGender" value="Other">
+                <label for="editGenderOther" class="radio-label">其他</label>
+            </fieldset>
+
+            <label for="editBirthday">生日</label>
+            <input type="date" id="editBirthday" required>
+
+            <button type="submit">儲存</button>
+            <a href="#" class="forgot-link" onclick="loadUserProfile(); showForm('profileView', '會員資訊')">返回會員資訊</a>
+        </form>
+    </main>
+
+    <script>
+
+        const registeredUsers = {
+
+            "test@example.com": {
+                id: "test001",
+                name: "王小明",
+                phone: "0912345678",
+                gender: "Male",
+                birthday: "1990-01-01",
+                password: "password123"
+            }
+        };
+
+        function saveUser(email, data) {
+            registeredUsers[email] = data;
+
+            localStorage.setItem("currentUserData", JSON.stringify(data));
+        }
+
+
+        const mainPageTitle = document.getElementById('mainPageTitle');
+        const emailForm = document.getElementById('emailForm');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const profileView = document.getElementById('profileView');
+        const editProfileForm = document.getElementById('editProfileForm');
+        const emailInput = document.getElementById('emailInput');
+
+
+        function isUserLoggedIn() {
+
+            return localStorage.getItem("isLogin") === "true";
+        }
+
+        function showForm(formId, title) {
+
+            emailForm.classList.add('hidden');
+            loginForm.classList.add('hidden');
+            registerForm.classList.add('hidden');
+            profileView.classList.add('hidden');
+            editProfileForm.classList.add('hidden');
+
+
+            document.getElementById(formId).classList.remove('hidden');
+            mainPageTitle.textContent = title;
+
+
+            const loginPage = document.querySelector('.login-page');
+            if (loginPage) {
+                loginPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+        }
+
+        function resetPage() {
+
+            showForm('emailForm', '會員專區');
+            emailInput.value = '';
+        }
+
+
+        function loadUserProfile() {
+            const email = localStorage.getItem("currentUserEmail");
+
+            let userData = JSON.parse(localStorage.getItem("currentUserData"));
+
+            if (!userData && email && registeredUsers[email]) {
+
+                userData = registeredUsers[email];
+            }
+
+            if (userData) {
+                document.getElementById('infoName').textContent = userData.name;
+                document.getElementById('infoEmail').textContent = email;
+                document.getElementById('infoPhone').textContent = userData.phone;
+                document.getElementById('infoGender').textContent = userData.gender === "Male" ? "男性" : (userData.gender === "Female" ? "女性" : "其他");
+                document.getElementById('infoBirthday').textContent = userData.birthday.replace(/-/g, '/');
+                registeredUsers[email] = userData;
+            } else {
+                // 如果找不到用戶資料，強制登出
+                handleLogout();
+            }
+        }
+
+
+        window.onload = function () {
+
+            if (isUserLoggedIn()) {
+                loadUserProfile();
+                showForm('profileView', '會員資訊');
+            } else {
+                resetPage();
+            }
+        };
+
+        // 檢查 Email
+        function checkEmail(e) {
+            e.preventDefault();
+            const email = emailInput.value;
+            const exists = registeredUsers.hasOwnProperty(email);
+
+            document.getElementById('loginEmailDisplay').textContent = email;
+            document.getElementById('registerEmailDisplay').textContent = email;
+
+            if (exists) {
+                showForm('loginForm', '登入');
+            } else {
+                showForm('registerForm', '新會員註冊');
+            }
+        }
+
+        // 從 Email 頁面的 "Sign Up" 連結跳轉到註冊表單
+        function showRegisterFormFromEmail() {
+            const email = emailInput.value || "";
+            if (email) {
+                document.getElementById('registerEmailDisplay').textContent = email;
+            } else {
+                document.getElementById('registerEmailDisplay').textContent = "請輸入 Email";
+            }
+            showForm('registerForm', '新會員註冊');
+        }
+
+        function showEditProfile() {
+            const email = localStorage.getItem("currentUserEmail");
+            const user = registeredUsers[email];
+
+            if (!user) return;
+
+            document.getElementById('editEmailDisplay').textContent = email;
+            document.getElementById('editEmail').value = email;
+            document.getElementById('editID').value = user.id || 'N/A';
+            document.getElementById('editName').value = user.name;
+            document.getElementById('editPhone').value = user.phone;
+            document.getElementById('editBirthday').value = user.birthday;
+
+
+            document.querySelectorAll('input[name="editGender"]').forEach(radio => {
+                radio.checked = radio.value === user.gender;
+            });
+
+            showForm('editProfileForm', '編輯會員資料');
+        }
+
+
+        function handleProfileUpdate(e) {
+            e.preventDefault();
+            const email = localStorage.getItem("currentUserEmail");
+
+
+            const newName = document.getElementById('editName').value;
+            const newPhoneInput = document.getElementById('editPhone');
+            const newPhone = newPhoneInput.value;
+            const newGender = document.querySelector('input[name="editGender"]:checked').value;
+            const newBirthday = document.getElementById('editBirthday').value;
+            let hasError = false;
+
+
+
+            if (hasError) return;
+
+
+            const updatedUserData = {
+                id: document.getElementById('editID').value, // 保持 ID 不變
+                name: newName,
+                phone: newPhone,
+                gender: newGender,
+                birthday: newBirthday,
+                password: registeredUsers[email].password // 保持密碼不變
+            };
+
+
+            saveUser(email, updatedUserData);
+
+            alert("會員資料更新成功！");
+
+
+            loadUserProfile();
+            showForm('profileView', '會員資訊');
+        }
+
+
+
+        function handleInputValidation(inputElement, type) {
+            let isValid = true;
+            const value = inputElement.value;
+
+            if (type === 'phone') {
+                const phoneRegex = /^\d{10}$/;
+                isValid = phoneRegex.test(value);
+            } else if (type === 'password') {
+                isValid = value.length >= 8;
+            } else if (type === 'confirm_password') {
+                const regPassword = document.getElementById('regPassword').value;
+                isValid = (value === regPassword) && value.length >= 8;
+                if (regPassword.length >= 8) {
+                    document.getElementById('regPassword').classList.remove('input-error');
+                } else if (regPassword.length > 0) {
+                    document.getElementById('regPassword').classList.add('input-error');
+                }
+            }
+
+            if (value.length === 0) {
+                inputElement.classList.remove('input-error');
+            } else if (!isValid) {
+                inputElement.classList.add('input-error');
+            } else {
+                inputElement.classList.remove('input-error');
+            }
+        }
+
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = emailInput.value;
+            const passwordInput = document.getElementById('loginPassword');
+            const password = passwordInput.value;
+
+            if (password.length < 8) {
+                alert("登入失敗：密碼長度不足 8 個字元。");
+                passwordInput.classList.add('input-error');
+                return;
+            } else {
+                passwordInput.classList.remove('input-error');
+            }
+
+            if (registeredUsers[email] && registeredUsers[email].password === password) {
+
+
+                localStorage.setItem("isLogin", "true");
+                localStorage.setItem("currentUserEmail", email);
+
+                // 儲存用戶資料到 LocalStorage
+                localStorage.setItem("currentUserData", JSON.stringify(registeredUsers[email]));
+
+                alert("登入成功！");
+
+                // 直接切換到會員資訊頁面
+                loadUserProfile();
+                showForm('profileView', '會員資訊');
+
+            } else {
+                alert("登入失敗：Email 或密碼錯誤。");
+                passwordInput.classList.add('input-error');
+            }
+        }
+
+        //處理註冊
+        function handleRegister(e) {
+            e.preventDefault();
+            const email = emailInput.value;
+            const name = document.getElementById('regName').value;
+            const phone = document.getElementById('regPhone').value;
+            const gender = document.querySelector('input[name="regGender"]:checked').value;
+            const birthday = document.getElementById('regBirthday').value;
+            const password = document.getElementById('regPassword').value;
+
+            let hasError = false;
+
+            if (hasError) return;
+
+            // 儲存新用戶資料
+            const newUserData = {
+                id: Math.floor(100000 + Math.random() * 900000).toString(),
+                name,
+                phone,
+                gender,
+                birthday,
+                password
+            };
+
+            registeredUsers[email] = newUserData;
+
+
+            localStorage.setItem("isLogin", "true");
+            localStorage.setItem("currentUserEmail", email);
+            // 儲存資料
+            localStorage.setItem("currentUserData", JSON.stringify(newUserData));
+
+
+            alert("註冊成功！您已自動登入。");
+
+            // 直接切換到會員資訊頁面
+            loadUserProfile();
+            showForm('profileView', '會員資訊');
+        }
+
+        // 返回 Email 輸入畫面
+        function backToEmail() {
+            document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+            resetPage();
+        }
+
+        //  處理登出
+        function handleLogout() {
+            localStorage.removeItem("isLogin");
+            localStorage.removeItem("currentUserEmail");
+            localStorage.removeItem("currentUserData"); // 清除用戶資料
+            alert("您已成功登出！");
+
+            // 登出後重設頁面，顯示 Email 檢查畫面
+            resetPage();
+        }
+    </script>
+<script src="assets/js/header-auth.js"></script>
+
+</body>
+
+</html>

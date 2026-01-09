@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Toast&Co.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/final.css">
+</head>
+
+<body>
+
+    <!-- ===== 導覽列 ===== -->
+    <header class="header">
+        <div class="navbar">
+            <div class="nav-left nav-icons">
+                <a href="login.html" id="memberArea"><i class="fa-regular fa-user icon"></i></a>
+                <i class="fa-solid fa-magnifying-glass icon" id="searchIcon"></i>
+            </div>
+
+            <div class="logo">
+                <img src="assets/img/images/logoo.png" alt="Toast&Co logo">
+                <a href="index.html">Toast&Co.</a>
+            </div>
+
+            <div class="nav-right nav-icons">
+                <a href="cart.html"><i class="fa-solid fa-cart-shopping icon"></i></a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <a href="about-us.html">關於我們</a>
+            <a href="goods.html">商品列表</a>
+            <a href="limited.html">期間限定</a>
+            <a href="feedback.html">顧客回饋</a>
+            <a href="contact.html">聯絡資訊</a>
+            
+        </nav>
+        <input type="text" id="searchInput" placeholder="搜尋商品...">
+
+    </header>
+
+    <main class="checkout-page">
+
+        <h1 class="page-title">結帳</h1>
+      
+        <div class="checkout-layout">
+      
+          <!-- 左：填寫資料 -->
+          <section class="checkout-form">
+            <h2>收件人資料</h2>
+      
+            <label>
+              姓名
+              <input type="text" id="name" required>
+            </label>
+      
+            <label>
+              電話
+              <input type="tel" id="phone" required>
+            </label>
+      
+            <label>
+              Email
+              <input type="email" id="email" required>
+            </label>
+      
+            <label>
+              地址
+              <input type="text" id="address" required>
+            </label>
+      
+        <button type="button" class="checkout-btn" onclick="submitOrder()">確認下單</button>            
+        </section>
+      
+        <!-- 右：訂單摘要 -->
+        <aside class="order-summary" id="order-summary">
+          <h2>訂單摘要</h2>
+
+          <div id="order-items"></div>
+
+          <hr>
+
+          <p>小計 <span id="checkout-subtotal">NT$ 0</span></p>
+          <p>運費 <span id="checkout-shipping">NT$ 60</span></p>
+          <p class="total">總計 <span id="checkout-total">NT$ 0</span></p>
+        </aside>
+
+        </div>
+      
+      </main>
+
+      <script src="assets/js/cart.js"></script>
+      <script>
+        console.log('checkout js loaded');
+
+        const cart = getCart();
+        console.log('cart =', cart);
+
+        // 防止空購物車
+        if (!cart || cart.length === 0) {
+          alert('購物車是空的');
+          location.href = 'cart.html';
+        }
+
+        const itemsBox = document.getElementById('order-items');
+        const subtotalEl = document.getElementById('checkout-subtotal');
+        const shippingEl = document.getElementById('checkout-shipping');
+        const totalEl = document.getElementById('checkout-total');
+
+        let subtotal = 0;
+        const shipping = 60;
+
+        itemsBox.innerHTML = '';
+
+        cart.forEach(item => {
+          const itemTotal = item.price * item.qty;
+          subtotal += itemTotal;
+
+          const row = document.createElement('div');
+          row.className = 'summary-item';
+          row.innerHTML = `
+            <span>${item.name} × ${item.qty}</span>
+            <span>NT$ ${itemTotal}</span>
+          `;
+          itemsBox.appendChild(row);
+        });
+
+        subtotalEl.textContent = `NT$ ${subtotal}`;
+        shippingEl.textContent = `NT$ ${shipping}`;
+        totalEl.textContent = `NT$ ${subtotal + shipping}`;
+        // 送出訂單
+        function submitOrder() {
+          const name = document.getElementById('name').value.trim();
+          const phone = document.getElementById('phone').value.trim();
+          const email = document.getElementById('email').value.trim();
+          const address = document.getElementById('address').value.trim();
+
+          if (!name || !phone || !email || !address) {
+            alert('請完整填寫資料');
+            return;
+          }
+
+          alert('訂單已送出！感謝您的購買～ 🍞✨');
+          localStorage.removeItem('cart');
+          location.href = 'index.html';
+        }
+      </script>
+    
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+      <div class="footer-inner">
+          <div class="footer-left">
+              <p>Toast&Co.</p>
+              <br>
+              <img height="100" src="assets/img/images/logoo.png" alt="logo">
+          </div>
+
+          <div class="footer-middle">
+              <h3>公司資訊</h3>
+              <p>
+                <a href="mailto:0522pamela@gmail.com?subject=客服詢問"><i class="fa-regular fa-envelope"></i></a>
+                <a href="https://www.facebook.com/share/1brKSqFVAn/?mibextid=wwXIfr"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.instagram.com/unaizla_?igsh=NTB3N2s4Nzc0N3Nk"><i class="fa-brands fa-instagram"></i></a>
+                <a href="tel:0938069567"><i class="fa-solid fa-phone"></i></a>
+              </p>
+              <p>公司名稱：好市吐司股份有限公司</p>
+              <p>電話：0941016522</p>
+              <p>地址：320桃園市中壢區中原路200號</p>
+              <p>服務時間：周一至周六 08：00~17:00</p>
+          </div>
+
+          <div class="footer-right">
+
+              <div class="footer-group">
+                  <h3>常見問題</h3>
+                  <a href="faq.html#order">訂購須知</a>
+                  <a href="faq.html#qa">Q&A</a>
+              </div>
+          
+              <div class="footer-group">
+                  <h3>購物說明</h3>
+                  <a href="faq.html#storage">保存方式</a>
+                  <a href="faq.html#shipping">運送方式</a>
+                  <a href="faq.html#payment">付款方式</a>
+              </div>
+          
+          </div>
+      </div>
+  </footer>
+  <script src="assets/js/header-auth.js"></script>
+
+</body>
+</html>

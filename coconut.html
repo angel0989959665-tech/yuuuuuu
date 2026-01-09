@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>椰香葡萄奶酥厚片 | Toast&Co.</title>
+    <link rel="stylesheet" href="assets/css/final.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- ===== 導覽列 ===== -->
+    <header class="header">
+        <div class="navbar">
+            <div class="nav-left nav-icons">
+                <a href="login.html" id="memberArea">
+                    <i class="fa-regular fa-user icon"></i>
+                </a>
+
+                <i class="fa-solid fa-magnifying-glass icon" id="searchIcon"></i>
+            </div>
+
+
+            <div class="logo">
+                <img src="assets/img/images/logoo.png" alt="Toast&Co logo">
+                <a href="index.html">Toast&Co.</a>
+            </div>
+
+            <div class="nav-right nav-icons">
+                <a href="cart.html"><i class="fa-solid fa-cart-shopping icon"></i></a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <a href="about-us.html">關於我們</a>
+            <a href="goods.html">商品列表</a>
+            <a href="limited.html">期間限定</a>
+            <a href="feedback.html">顧客回饋</a>
+            <a href="contact.html">聯絡資訊</a>
+        </nav>
+
+        <input type="text" id="searchInput" placeholder="搜尋商品...">
+
+    </header>
+
+    <main class="detail-page">
+
+        <section class="product-detail">
+            <div class="product-image">
+                <img src="assets/img/flavor images/coconut.png" alt="椰香葡萄奶酥厚片">
+            </div>
+
+            <div class="product-info">
+                <h1>椰香葡萄奶酥厚片</h1>
+                <p class="desc">嚴選厚切吐司，外層烤至金黃酥脆、內裡柔軟蓬鬆，鋪上香氣濃郁的椰香奶酥醬，融合椰絲的自然清甜與奶油的滑順口感。搭配飽滿多汁的青葡萄乾，酸甜平衡不膩口，烘烤後奶酥微微融化、邊緣自然流淌，每一口都能感受到椰香、奶香與果香交織的幸福滋味。</p>
+                <p class="price">NT$ 115</p>
+                <div class="rating">
+                    <span class="stars">推薦指數: ★★★★☆</span>
+                    <span class="score">｜3 則評論</span>
+                </div>
+
+                <div class="qty-control">
+                    <button type="button" class="qty-btn minus">−</button>
+                    <input type="number" id="qty" value="1" min="1">
+                    <button type="button" class="qty-btn plus">＋</button>
+                </div>
+
+                <!-- 加入購物車按鈕 -->
+                <button class="add-cart">加入購物車</button>
+
+            </div>
+        </section>
+
+        <script src="assets/js/cart.js"></script>
+        <script>
+            // 1. 抓取 HTML 元素
+            const qtyInput = document.getElementById("qty");
+            const plusBtn = document.querySelector(".qty-btn.plus");
+            const minusBtn = document.querySelector(".qty-btn.minus");
+            const addCartBtn = document.querySelector(".add-cart");
+        
+            // 2. ＋ 按鈕邏輯
+            plusBtn.addEventListener("click", () => {
+                let currentVal = parseInt(qtyInput.value) || 1;
+                qtyInput.value = currentVal + 1;
+            });
+        
+            // 3. － 按鈕邏輯
+            minusBtn.addEventListener("click", () => {
+                let currentVal = parseInt(qtyInput.value) || 1;
+                if (currentVal > 1) {
+                    qtyInput.value = currentVal - 1;
+                }
+            });
+        
+            // 4. 加入購物車邏輯 (這部分最重要，要抓點擊當下的數字)
+            addCartBtn.addEventListener("click", () => {
+                const cart = getCart();
+                // 確保抓到的是輸入框內最新的「數字」
+                const finalQty = parseInt(qtyInput.value) || 1; 
+        
+                const product = {
+                    name: "椰香葡萄奶酥厚片",
+                    price: 115,
+                    qty: finalQty,
+                    image: "assets/img/flavor images/coconut.png"
+                };
+        
+                const exist = cart.find(item => item.name === product.name);
+        
+                if (exist) {
+                    exist.qty += finalQty;
+                } else {
+                    cart.push(product);
+                }
+        
+                saveCart(cart);
+                alert(`已加入購物車（${finalQty} 份）`);
+            });
+        </script>
+
+        <section class="reviews">
+            <h2>顧客評論</h2>
+
+            <div class="review-item">
+                <div class="review-header">
+                    <strong>A用戶</strong>
+                    <span class="stars">★★★★☆</span>
+                </div>
+                <p class="review-text">
+                   椰香味超級療癒，奶酥不會死甜，葡萄乾的酸度剛剛好！
+                </p>
+            </div>
+
+            <div class="review-item">
+                <div class="review-header">
+                    <strong>B用戶</strong>
+                    <span class="stars">★★★★☆</span>
+                </div>
+                <p class="review-text">
+                    本來怕椰子味太重，結果意外很順口，會想回購。
+                </p>
+            </div>
+
+            <div class="review-item">
+                <div class="review-header">
+                    <strong>C用戶</strong>
+                    <span class="stars">★★★★☆</span>
+                </div>
+                <p class="review-text">
+                    當下午茶很滿足，一片就有飽足感，配咖啡很加分。
+                </p>
+            </div>
+
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-left">
+                <p>Toast&Co.</p>
+                <br>
+                <img height="100" src="assets/img/images/logoo.png" alt="logo">
+            </div>
+
+            <div class="footer-middle">
+                <h3>公司資訊</h3>
+                <p>
+                    <a href="mailto:0522pamela@gmail.com?subject=客服詢問"><i class="fa-regular fa-envelope"></i></a>
+                    <a href="https://www.facebook.com/share/1brKSqFVAn/?mibextid=wwXIfr"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/unaizla_?igsh=NTB3N2s4Nzc0N3Nk"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="tel:0938069567"><i class="fa-solid fa-phone"></i></a>
+                </p>
+                <p>公司名稱：好市吐司股份有限公司</p>
+                <p>電話：0941016522</p>
+                <p>地址：320桃園市中壢區中原路200號</p>
+                <p>服務時間：周一至周六 08：00~17:00</p>
+            </div>
+
+            <div class="footer-right">
+
+                <div class="footer-group">
+                    <h3>常見問題</h3>
+                    <a href="faq.html#order">訂購須知</a>
+                    <a href="faq.html#qa">Q&A</a>
+                </div>
+            
+                <div class="footer-group">
+                    <h3>購物說明</h3>
+                    <a href="faq.html#storage">保存方式</a>
+                    <a href="faq.html#shipping">運送方式</a>
+                    <a href="faq.html#payment">付款方式</a>
+                </div>
+            
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/header-auth.js"></script>
+
+</body>
+
+</html>
